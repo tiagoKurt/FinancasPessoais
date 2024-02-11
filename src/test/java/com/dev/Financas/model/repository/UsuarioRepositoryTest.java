@@ -2,18 +2,22 @@ package com.dev.Financas.model.repository;
 
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.AssertionsForClassTypes;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.dev.Financas.model.entity.Usuario;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@ActiveProfiles("test")
+@DataJpaTest
 public class UsuarioRepositoryTest {
 	
+	@Autowired
 	UsuarioRepository repository;
 	
 	@Test
