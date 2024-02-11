@@ -9,6 +9,8 @@ import javax.persistence.Table;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Usuario")
@@ -29,4 +31,5 @@ public class Usuario {
 	
 	@Column(name = "senha")
 	private String senha;
+	
 }
