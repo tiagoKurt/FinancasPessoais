@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dev.Financas.api.DTO.UsuarioDTO;
 import com.dev.Financas.exception.ErroAutenticacao;
 import com.dev.Financas.model.entity.Usuario;
+import com.dev.Financas.service.LancamentoService;
 import com.dev.Financas.service.UsuarioService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/usuarios")
+@RequiredArgsConstructor
 public class UsuarioResource {
 	
-	private UsuarioService service;
-	
-	public UsuarioResource(UsuarioService service) {
-		this.service = service;
-	}
+	private final UsuarioService service;
 	
 	
 	@PostMapping("/autenticar")

@@ -3,6 +3,7 @@ package com.dev.Financas.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.catalina.startup.ClassLoaderFactory.Repository;
 import org.springframework.data.domain.Example;
@@ -104,6 +105,11 @@ public class LancamentoServiceImpl implements LancamentoService{
 			throw new RegraNegocioException("Informe um tipo de lançamento");
 		}
 		
+	}
+
+	@Override
+	public Optional<Lancamento> obterPorId(Long id) {
+		return repository.findById(id);
 	}
 	
 }
