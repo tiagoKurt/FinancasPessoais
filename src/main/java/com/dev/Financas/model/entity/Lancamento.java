@@ -14,8 +14,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
@@ -28,21 +32,25 @@ import com.dev.Financas.model.enums.TipoLancamento;
 @Table(name = "lancamento")
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode
 public class Lancamento {
 	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	@Column(name = "descricao")
 	private String descricao;
 	
 	@Column(name = "mes")
-	private int mes;
+	private Integer mes;
 	 
 	@Column(name = "ano")
-	private int ano;
+	private Integer ano;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")

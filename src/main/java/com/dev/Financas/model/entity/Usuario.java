@@ -5,11 +5,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
+
 @Table(name = "Usuario")
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Data
 public class Usuario {
@@ -17,7 +22,7 @@ public class Usuario {
 	@Id
 	@Column(name = "id")
 	@jakarta.persistence.GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	@Column(name = "nome")
 	private String nome;
