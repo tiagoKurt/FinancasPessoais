@@ -8,6 +8,7 @@ import com.dev.Financas.exception.RegraNegocioException;
 import com.dev.Financas.model.entity.Usuario;
 import com.dev.Financas.model.repository.UsuarioRepository;
 import com.dev.Financas.service.UsuarioService;
+import java.util.Base64;
 
 import java.util.Optional;
 
@@ -44,6 +45,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public Usuario salvarUsuario(Usuario usuario) {
 		
 		validarEmail(usuario.getEmail());
+		String senha = Base64.getEncoder().encodeToString(usuario.getSenha().getBytes());
+		usuario.setSenha(senha);
 		return repository.save(usuario);
 		
 	}
