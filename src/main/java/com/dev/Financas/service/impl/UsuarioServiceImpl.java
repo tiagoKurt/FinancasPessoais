@@ -27,12 +27,15 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public Usuario autenticar(String email, String senha) {
 		
 		Optional<Usuario> usuario = repository.findByEmail(email);
+		String senhaEncrypting = Base64.getEncoder().encodeToString(senha.getBytes());
+
+		
 		
 		if(!usuario.isPresent()) {
 			
 			throw new ErroAutenticacao("Usuário não encontrado para o email informado.");
 			
-		}else if(!usuario.get().getSenha().equals(senha)) {
+		}else if(!usuario.get().getSenha().equals(senhaEncrypting)) {
 			
 			throw new ErroAutenticacao("Senha inválida");
 		}
