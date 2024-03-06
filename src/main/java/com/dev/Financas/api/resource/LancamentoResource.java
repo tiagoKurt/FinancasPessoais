@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +35,7 @@ public class LancamentoResource {
 	private final LancamentoService service;
 	private final UsuarioService usuarioService;
 	
-	
+	@CrossOrigin(origins="*")
 	@GetMapping
 	public ResponseEntity buscar(
 			@RequestParam(value = "descricao", required = false) String descricao, 
@@ -58,6 +59,7 @@ public class LancamentoResource {
 		return ResponseEntity.ok(lancamentos);
 	}
 	
+	@CrossOrigin(origins="*")
 	@PostMapping
 	public ResponseEntity salvar(@RequestBody LancamentoDTO dto) {
 		
@@ -72,6 +74,7 @@ public class LancamentoResource {
 		}
 	}
 	
+	@CrossOrigin(origins="*")
 	@PutMapping("{id}")
 	public ResponseEntity atualizar( @PathVariable("id") Long id, @RequestBody LancamentoDTO dto ) {
 			
@@ -90,7 +93,7 @@ public class LancamentoResource {
 		}).orElseGet( () -> 
 		new ResponseEntity("Lançamento não encontrado na base de dados!", HttpStatus.BAD_REQUEST ) );
 	}
-	
+	@CrossOrigin(origins="*")
 	@DeleteMapping("{id}")
 	public ResponseEntity deletar( @PathVariable("id") Long id ) {
 		return service.obterPorId(id).map(entidade ->{
