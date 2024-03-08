@@ -13,11 +13,10 @@ import java.util.Base64;
 import java.util.Optional;
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService{
+public class UsuarioServiceImpl implements UsuarioService {
 
-	
 	private UsuarioRepository repository;
-	
+
 	public UsuarioServiceImpl(UsuarioRepository repository) {
 		super();
 		this.repository = repository;
@@ -25,40 +24,38 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public Usuario autenticar(String email, String senha) {
-		
+
 		Optional<Usuario> usuario = repository.findByEmail(email);
 		String senhaEncrypting = Base64.getEncoder().encodeToString(senha.getBytes());
 
-		
-		
-		if(!usuario.isPresent()) {
-			
+		if (!usuario.isPresent()) {
+
 			throw new ErroAutenticacao("Usuário não encontrado para o email informado.");
-			
-		}else if(!usuario.get().getSenha().equals(senhaEncrypting)) {
-			
+
+		} else if (!usuario.get().getSenha().equals(senhaEncrypting)) {
+
 			throw new ErroAutenticacao("Senha inválida");
 		}
-		
+
 		return usuario.get();
 	}
 
 	@Override
 	@Transactional
 	public Usuario salvarUsuario(Usuario usuario) {
-		
+
 		validarEmail(usuario.getEmail());
 		String senha = Base64.getEncoder().encodeToString(usuario.getSenha().getBytes());
 		usuario.setSenha(senha);
 		return repository.save(usuario);
-		
+
 	}
 
 	@Override
-	public void validarEmail( String email) {
+	public void validarEmail(String email) {
 		boolean existe = repository.existsByEmail(email);
-		
-		if(existe) {
+
+		if (existe) {
 			throw new RegraNegocioException("Já existe um usuário cadastrado com este email!");
 		}
 	}
