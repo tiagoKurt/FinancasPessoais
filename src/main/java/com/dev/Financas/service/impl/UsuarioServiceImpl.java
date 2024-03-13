@@ -30,11 +30,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 		if (!usuario.isPresent()) {
 
-			throw new ErroAutenticacao("Usuário não encontrado para o email informado.");
+			throw new ErroAutenticacao("Usuário ou senha não conferem.");
 
 		} else if (!usuario.get().getSenha().equals(senhaEncrypting)) {
 
-			throw new ErroAutenticacao("Senha inválida");
+			throw new ErroAutenticacao("Usuário ou senha não conferem.");
 		}
 
 		return usuario.get();
