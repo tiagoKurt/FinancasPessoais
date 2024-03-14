@@ -65,4 +65,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return repository.findById(id);
 	}
 
+	@Override
+	public Optional<Usuario> ObterPorEmail(String email) {
+		return repository.findByEmail(email);
+	}
+
 }

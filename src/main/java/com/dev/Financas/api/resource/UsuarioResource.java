@@ -76,4 +76,28 @@ public class UsuarioResource {
 		BigDecimal saldo = lancamentoService.obterSaldoPorUsuario(id);
 		return ResponseEntity.ok(saldo);
 	}
+
+	@GetMapping("{id}/receita")
+	public ResponseEntity obterReceita(@PathVariable("id") Long id){
+		Optional<Usuario> usuario = service.ObterPorId(id);
+
+		if(!usuario.isPresent()){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		BigDecimal receita = lancamentoService.obterReceitaPorUsuario(id);
+		return ResponseEntity.ok(receita);
+	}
+
+	@GetMapping("{id}/despesa")
+	public ResponseEntity obterDespesa(@PathVariable("id") Long id){
+		Optional<Usuario> usuario = service.ObterPorId(id);
+
+		if(!usuario.isPresent()){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		BigDecimal despesa = lancamentoService.obterDespesaPorUsuario(id);
+		return ResponseEntity.ok(despesa);
+	}
 }

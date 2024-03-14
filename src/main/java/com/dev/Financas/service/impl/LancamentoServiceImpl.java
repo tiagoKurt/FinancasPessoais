@@ -129,5 +129,28 @@ public class LancamentoServiceImpl implements LancamentoService{
 
 		return receitas.subtract(despesas);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public BigDecimal obterReceitaPorUsuario(Long id) {
+		BigDecimal receitas = repository.obterSaldoPorTipoLancamentoEUSuario(id, TipoLancamento.RECEITA);
+
+		if(receitas == null){
+			receitas = BigDecimal.ZERO;
+		}
+
+		return receitas;
+	}
+
+	@Override
+	public BigDecimal obterDespesaPorUsuario(Long id) {
+		BigDecimal despesas = repository.obterSaldoPorTipoLancamentoEUSuario(id, TipoLancamento.DESPESA);
+
+		if(despesas == null){
+			despesas = BigDecimal.ZERO;
+		}
+
+		return despesas;
+	}
 	
 }
