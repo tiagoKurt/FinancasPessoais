@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.Financas.api.DTO.LancamentoDTO;
+import com.dev.Financas.api.DTO.UsuarioDTO;
 import com.dev.Financas.exception.RegraNegocioException;
 import com.dev.Financas.model.entity.Lancamento;
 import com.dev.Financas.model.entity.Usuario;
 import com.dev.Financas.model.enums.StatusLancamento;
 import com.dev.Financas.model.enums.TipoLancamento;
+import com.dev.Financas.model.repository.IUsuarioProjection;
 import com.dev.Financas.service.LancamentoService;
 import com.dev.Financas.service.UsuarioService;
 
@@ -51,15 +53,35 @@ public class LancamentoResource {
 		lancamentoFiltro.setAno(ano);
 
 		Optional<Usuario> usuario = usuarioService.ObterPorId(idUsuario);
+
 		if (!usuario.isPresent()) {
 			return ResponseEntity.badRequest().body("Usuário não encontrado para o ID informado");
 		} else {
+
 			lancamentoFiltro.setUsuario(usuario.get());
 		}
 
 		List<Lancamento> lancamentos = service.buscar(lancamentoFiltro);
 		return ResponseEntity.ok(lancamentos);
 	}
+
+	// @CrossOrigin(origins = "*")
+	// @GetMapping("/tudo")
+	// public ResponseEntity getTudo(@RequestParam("usuario") Long idUsuario) {
+
+	// Optional<IUsuarioProjection> usuario =
+	// usuarioService.obterPorIdLimitado(idUsuario);
+
+	// if (!usuario.isPresent()) {
+	// return ResponseEntity.badRequest().body("Usuário não encontrado para o ID
+	// informado");
+	// } else {
+
+	// lancamentoFiltro.setUsuario(usuario.get());
+	// }
+	// list
+	// return ResponseEntity.ok(lancaento);
+	// }
 
 	@CrossOrigin(origins = "*")
 	@PostMapping
@@ -101,7 +123,7 @@ public class LancamentoResource {
 		Map<String, String> response2 = new HashMap<>();
 		response.put("status", "Nao foi possivel atualizar o status do lancamento");
 		response2.put("status", "Lancamento não encontrado na base de dados");
-		
+
 		return service.obterPorId(id).map(entity -> {
 			StatusLancamento statusSelecionado = StatusLancamento.valueOf(dto.getStatus());
 			if (statusSelecionado == null) {

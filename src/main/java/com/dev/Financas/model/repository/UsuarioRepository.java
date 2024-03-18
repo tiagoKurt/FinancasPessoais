@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.dev.Financas.model.entity.Usuario;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
-	
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+
 	boolean existsByEmail(String email);
-	
+
 	Optional<Usuario> findByEmail(String email);
+
+	Optional<IUsuarioProjection> findProjectedById(Long id);
 
 }
