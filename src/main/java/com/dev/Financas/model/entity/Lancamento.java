@@ -21,10 +21,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
-
 import com.dev.Financas.model.enums.StatusLancamento;
 import com.dev.Financas.model.enums.TipoLancamento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "lancamento")
@@ -52,6 +51,7 @@ public class Lancamento {
 
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
+
 	private Usuario usuario;
 
 	@Column(name = "valor")

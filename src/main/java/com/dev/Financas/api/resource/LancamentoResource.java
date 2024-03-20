@@ -65,24 +65,6 @@ public class LancamentoResource {
 		return ResponseEntity.ok(lancamentos);
 	}
 
-	// @CrossOrigin(origins = "*")
-	// @GetMapping("/tudo")
-	// public ResponseEntity getTudo(@RequestParam("usuario") Long idUsuario) {
-
-	// Optional<IUsuarioProjection> usuario =
-	// usuarioService.obterPorIdLimitado(idUsuario);
-
-	// if (!usuario.isPresent()) {
-	// return ResponseEntity.badRequest().body("Usuário não encontrado para o ID
-	// informado");
-	// } else {
-
-	// lancamentoFiltro.setUsuario(usuario.get());
-	// }
-	// list
-	// return ResponseEntity.ok(lancaento);
-	// }
-
 	@CrossOrigin(origins = "*")
 	@PostMapping
 	public ResponseEntity salvar(@RequestBody LancamentoDTO dto) {
@@ -147,13 +129,18 @@ public class LancamentoResource {
 	@CrossOrigin(origins = "*")
 	@DeleteMapping("{id}")
 	public ResponseEntity deletar(@PathVariable("id") Long id) {
+		Map<String, String> response = new HashMap<>();
+		response.put("status", "usuario ja cadastrado para o email informado");
 		return service.obterPorId(id).map(entidade -> {
 			service.deletar(entidade);
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		}).orElseGet(() -> new ResponseEntity("Lançamento não encontrado na base de dados!", HttpStatus.BAD_REQUEST));
+		}).orElseGet(() -> new ResponseEntity(response, HttpStatus.BAD_REQUEST));
 	}
 
 	private Lancamento converter(LancamentoDTO dto) {
+
+		Map<String, String> response = new HashMap<>();
+		response.put("status", "usuario ja cadastrado para o email informado");
 
 		Lancamento lancamento = new Lancamento();
 		lancamento.setId(dto.getId());
@@ -164,7 +151,7 @@ public class LancamentoResource {
 
 		Usuario usuario = usuarioService
 				.ObterPorEmail(dto.getUsuario())
-				.orElseThrow(() -> new RegraNegocioException("Usuário não encontrado para o EMAIL informado"));
+				.orElseThrow(() -> new RegraNegocioException(response.toString()));
 
 		lancamento.setUsuario(usuario);
 		lancamento.setTipo(TipoLancamento.valueOf(dto.getTipo()));
@@ -178,6 +165,12 @@ public class LancamentoResource {
 		}
 
 		return lancamento;
+	}
+
+	@GetMapping("/tudo/{idUsuario}")
+	public ResponseEntity<List<Lancamento>> buscarLancamentosPorUsuario(@PathVariable Long idUsuario) {
+		List<Lancamento> lancamentos = service.buscarLancamentosPorUsuario(idUsuario);
+		return ResponseEntity.ok(lancamentos);
 	}
 
 }

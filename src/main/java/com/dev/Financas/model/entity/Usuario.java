@@ -1,5 +1,7 @@
 package com.dev.Financas.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GenerationType;
@@ -10,7 +12,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Table(name = "Usuario")
 @Entity
 @NoArgsConstructor
@@ -18,19 +19,20 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class Usuario {
-	
+
 	@Id
 	@Column(name = "id")
 	@jakarta.persistence.GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "nome")
 	private String nome;
-	
+
 	@Column(name = "email")
 	private String email;
-	
+
+	@JsonIgnore
 	@Column(name = "senha")
 	private String senha;
-	
+
 }

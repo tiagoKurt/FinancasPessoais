@@ -20,92 +20,91 @@ import com.dev.Financas.model.enums.TipoLancamento;
 import com.dev.Financas.model.repository.LancamentoRepository;
 import com.dev.Financas.service.LancamentoService;
 
-	
 @Service
-public class LancamentoServiceImpl implements LancamentoService{
+public class LancamentoServiceImpl implements LancamentoService {
 
 	private LancamentoRepository repository;
-	
+
 	public LancamentoServiceImpl(LancamentoRepository repository) {
 		this.repository = repository;
 	}
-	
+
 	@Override
 	@Transactional
 	public Lancamento salvar(Lancamento lancamento) {
-		
+
 		validar(lancamento);
 		lancamento.setStatus(StatusLancamento.PENDENTE);
 		return repository.save(lancamento);
-	
+
 	}
 
 	@Override
 	@Transactional
 	public Lancamento atualizar(Lancamento lancamento) {
-		
+
 		Objects.requireNonNull(lancamento.getId());
 		validar(lancamento);
 		return repository.save(lancamento);
-		
+
 	}
 
 	@Override
 	@Transactional
 	public void deletar(Lancamento lancamento) {
-		
+
 		Objects.requireNonNull(lancamento.getId());
 		repository.delete(lancamento);
-		
+
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Lancamento> buscar(Lancamento lancamentoFiltro) {
-		
+
 		Example example = Example.of(lancamentoFiltro, ExampleMatcher.matching().withIgnoreCase()
 				.withStringMatcher(StringMatcher.CONTAINING));
-		
+
 		return repository.findAll(example);
-		
+
 	}
 
 	@Override
 	public void atulizarStatus(Lancamento lancamento, StatusLancamento status) {
-		
+
 		lancamento.setStatus(status);
 		atualizar(lancamento);
-		
+
 	}
 
 	@Override
 	public void validar(Lancamento lancamento) {
-		
-		if(lancamento.getDescricao() == null || lancamento.getDescricao().trim().equals("")) {
-		
+
+		if (lancamento.getDescricao() == null || lancamento.getDescricao().trim().equals("")) {
+
 			throw new RegraNegocioException("Informe uma descrição válida!");
 		}
-		
-		if(lancamento.getMes() == null || lancamento.getMes() < 1 || lancamento.getMes() > 12) {
+
+		if (lancamento.getMes() == null || lancamento.getMes() < 1 || lancamento.getMes() > 12) {
 			throw new RegraNegocioException("Informe um mês válido!");
 		}
-		
-		if(lancamento.getAno() == null || lancamento.getAno().toString().length() !=4) {
+
+		if (lancamento.getAno() == null || lancamento.getAno().toString().length() != 4) {
 			throw new RegraNegocioException("Informe um Ano válido!");
 		}
-		
-		if(lancamento.getUsuario() == null || lancamento.getUsuario().getId() == null) {
+
+		if (lancamento.getUsuario() == null || lancamento.getUsuario().getId() == null) {
 			throw new RegraNegocioException("Informe um Usuário");
 		}
-		
-		if(lancamento.getValor() == null || lancamento.getValor().compareTo(BigDecimal.ZERO) < 1 ) {
+
+		if (lancamento.getValor() == null || lancamento.getValor().compareTo(BigDecimal.ZERO) < 1) {
 			throw new RegraNegocioException("Informe um valor válido.");
 		}
-		
-		if(lancamento.getTipo() == null) {
+
+		if (lancamento.getTipo() == null) {
 			throw new RegraNegocioException("Informe um tipo de lançamento");
 		}
-		
+
 	}
 
 	@Override
@@ -119,13 +118,12 @@ public class LancamentoServiceImpl implements LancamentoService{
 		BigDecimal receitas = repository.obterSaldoPorTipoLancamentoEUSuario(id, TipoLancamento.RECEITA);
 		BigDecimal despesas = repository.obterSaldoPorTipoLancamentoEUSuario(id, TipoLancamento.DESPESA);
 
-		if(receitas == null){
+		if (receitas == null) {
 			receitas = BigDecimal.ZERO;
 		}
-		if(despesas == null){
+		if (despesas == null) {
 			despesas = BigDecimal.ZERO;
 		}
-
 
 		return receitas.subtract(despesas);
 	}
@@ -135,7 +133,7 @@ public class LancamentoServiceImpl implements LancamentoService{
 	public BigDecimal obterReceitaPorUsuario(Long id) {
 		BigDecimal receitas = repository.obterSaldoPorTipoLancamentoEUSuario(id, TipoLancamento.RECEITA);
 
-		if(receitas == null){
+		if (receitas == null) {
 			receitas = BigDecimal.ZERO;
 		}
 
@@ -146,11 +144,16 @@ public class LancamentoServiceImpl implements LancamentoService{
 	public BigDecimal obterDespesaPorUsuario(Long id) {
 		BigDecimal despesas = repository.obterSaldoPorTipoLancamentoEUSuario(id, TipoLancamento.DESPESA);
 
-		if(despesas == null){
+		if (despesas == null) {
 			despesas = BigDecimal.ZERO;
 		}
 
 		return despesas;
 	}
-	
+
+	@Override
+	public List<Lancamento> buscarLancamentosPorUsuario(Long idUsuario) {
+		return repository.findByUsuarioId(idUsuario);
+	}
+
 }

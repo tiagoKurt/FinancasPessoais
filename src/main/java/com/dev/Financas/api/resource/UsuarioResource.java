@@ -2,6 +2,7 @@ package com.dev.Financas.api.resource;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.Financas.api.DTO.UsuarioDTO;
 import com.dev.Financas.exception.ErroAutenticacao;
+import com.dev.Financas.model.entity.Lancamento;
 import com.dev.Financas.model.entity.Usuario;
 import com.dev.Financas.service.LancamentoService;
 import com.dev.Financas.service.UsuarioService;
@@ -66,10 +68,10 @@ public class UsuarioResource {
 	}
 
 	@GetMapping("{id}/saldo")
-	public ResponseEntity ObterSaldo(@PathVariable("id") Long id){
+	public ResponseEntity ObterSaldo(@PathVariable("id") Long id) {
 		Optional<Usuario> usuario = service.ObterPorId(id);
 
-		if(!usuario.isPresent()){
+		if (!usuario.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
@@ -78,10 +80,10 @@ public class UsuarioResource {
 	}
 
 	@GetMapping("{id}/receita")
-	public ResponseEntity obterReceita(@PathVariable("id") Long id){
+	public ResponseEntity obterReceita(@PathVariable("id") Long id) {
 		Optional<Usuario> usuario = service.ObterPorId(id);
 
-		if(!usuario.isPresent()){
+		if (!usuario.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
@@ -90,14 +92,15 @@ public class UsuarioResource {
 	}
 
 	@GetMapping("{id}/despesa")
-	public ResponseEntity obterDespesa(@PathVariable("id") Long id){
+	public ResponseEntity obterDespesa(@PathVariable("id") Long id) {
 		Optional<Usuario> usuario = service.ObterPorId(id);
 
-		if(!usuario.isPresent()){
+		if (!usuario.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
 		BigDecimal despesa = lancamentoService.obterDespesaPorUsuario(id);
 		return ResponseEntity.ok(despesa);
 	}
+
 }
