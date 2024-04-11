@@ -156,4 +156,46 @@ public class LancamentoServiceImpl implements LancamentoService {
 		return repository.findByUsuarioId(idUsuario);
 	}
 
+	@Override
+	public BigDecimal obterSaldoPorUsuarioEmail(String email) {
+		BigDecimal receitas = repository.obterSaldoPorTipoLancamentoEEmail(email, TipoLancamento.RECEITA);
+		BigDecimal despesas = repository.obterSaldoPorTipoLancamentoEEmail(email, TipoLancamento.DESPESA);
+
+		if (receitas == null) {
+			receitas = BigDecimal.ZERO;
+		}
+		if (despesas == null) {
+			despesas = BigDecimal.ZERO;
+		}
+
+		return receitas.subtract(despesas);
+	}
+
+	@Override
+	public BigDecimal obterReceitaPorUsuarioEmail(String email) {
+		BigDecimal receitas = repository.obterSaldoPorTipoLancamentoEEmail(email, TipoLancamento.RECEITA);
+
+		if (receitas == null) {
+			receitas = BigDecimal.ZERO;
+		}
+
+		return receitas;
+	}
+
+	@Override
+	public BigDecimal obterDespesaPorUsuarioEmail(String email) {
+		BigDecimal despesas = repository.obterSaldoPorTipoLancamentoEEmail(email, TipoLancamento.DESPESA);
+
+		if (despesas == null) {
+			despesas = BigDecimal.ZERO;
+		}
+
+		return despesas;
+	}
+
+	@Override
+	public List<Lancamento> buscarLancamentosPorUsuariEmail(String emailUsuario) {
+		return repository.findByUsuarioEmail(emailUsuario);
+	}
+
 }

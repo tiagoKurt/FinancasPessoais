@@ -12,11 +12,17 @@ import com.dev.Financas.model.enums.TipoLancamento;
 
 public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
 
-    @Query(value = " select sum(l.valor) from Lancamento l join l.usuario u " +
-            "where u.id = :idUsuario and l.tipo = :tipo group by u  ")
-    BigDecimal obterSaldoPorTipoLancamentoEUSuario(@Param("idUsuario") Long idUsuario,
-            @Param("tipo") TipoLancamento tipo);
+        @Query(value = " select sum(l.valor) from Lancamento l join l.usuario u " +
+                        "where u.id = :idUsuario and l.tipo = :tipo group by u  ")
+        BigDecimal obterSaldoPorTipoLancamentoEUSuario(@Param("idUsuario") Long idUsuario,
+                        @Param("tipo") TipoLancamento tipo);
 
-    List<Lancamento> findByUsuarioId(Long idUsuario);
+        List<Lancamento> findByUsuarioId(Long idUsuario);
+
+        @Query(value = "select sum(l.valor) from Lancamento l join l.usuario u where u.email = :emailUsuario and l.tipo = :tipoLanc")
+        BigDecimal obterSaldoPorTipoLancamentoEEmail(@Param("emailUsuario") String emailUsuario,
+                        @Param("tipoLanc") TipoLancamento tipoLanc);
+
+        List<Lancamento> findByUsuarioEmail(String emailUsuario);
 
 }

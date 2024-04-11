@@ -30,5 +30,13 @@ public interface LancamentoService {
 
 	BigDecimal obterDespesaPorUsuario(Long id);
 
+	BigDecimal obterSaldoPorUsuarioEmail(String email);
+
+	BigDecimal obterReceitaPorUsuarioEmail(String email);
+
+	BigDecimal obterDespesaPorUsuarioEmail(String email);
+
 	List<Lancamento> buscarLancamentosPorUsuario(Long idUsuario);
+
+	List<Lancamento> buscarLancamentosPorUsuariEmail(String emailUsuario);
 }

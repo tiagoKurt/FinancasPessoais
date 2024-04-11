@@ -67,39 +67,39 @@ public class UsuarioResource {
 		}
 	}
 
-	@GetMapping("{id}/saldo")
-	public ResponseEntity ObterSaldo(@PathVariable("id") Long id) {
-		Optional<Usuario> usuario = service.ObterPorId(id);
+	@GetMapping("{email}/saldo")
+	public ResponseEntity ObterSaldo(@PathVariable("email") String email) {
+		Optional<Usuario> usuario = service.ObterPorEmail(email);
 
 		if (!usuario.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		BigDecimal saldo = lancamentoService.obterSaldoPorUsuario(id);
+		BigDecimal saldo = lancamentoService.obterSaldoPorUsuarioEmail(email);
 		return ResponseEntity.ok(saldo);
 	}
 
-	@GetMapping("{id}/receita")
-	public ResponseEntity obterReceita(@PathVariable("id") Long id) {
-		Optional<Usuario> usuario = service.ObterPorId(id);
+	@GetMapping("{email}/receita")
+	public ResponseEntity obterReceita(@PathVariable("email") String email) {
+		Optional<Usuario> usuario = service.ObterPorEmail(email);
 
 		if (!usuario.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		BigDecimal receita = lancamentoService.obterReceitaPorUsuario(id);
+		BigDecimal receita = lancamentoService.obterReceitaPorUsuarioEmail(email);
 		return ResponseEntity.ok(receita);
 	}
 
-	@GetMapping("{id}/despesa")
-	public ResponseEntity obterDespesa(@PathVariable("id") Long id) {
-		Optional<Usuario> usuario = service.ObterPorId(id);
+	@GetMapping("{email}/despesa")
+	public ResponseEntity obterDespesa(@PathVariable("email") String email) {
+		Optional<Usuario> usuario = service.ObterPorEmail(email);
 
 		if (!usuario.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		BigDecimal despesa = lancamentoService.obterDespesaPorUsuario(id);
+		BigDecimal despesa = lancamentoService.obterDespesaPorUsuarioEmail(email);
 		return ResponseEntity.ok(despesa);
 	}
 

@@ -19,13 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.Financas.api.DTO.LancamentoDTO;
-import com.dev.Financas.api.DTO.UsuarioDTO;
 import com.dev.Financas.exception.RegraNegocioException;
 import com.dev.Financas.model.entity.Lancamento;
 import com.dev.Financas.model.entity.Usuario;
 import com.dev.Financas.model.enums.StatusLancamento;
 import com.dev.Financas.model.enums.TipoLancamento;
-import com.dev.Financas.model.repository.IUsuarioProjection;
 import com.dev.Financas.service.LancamentoService;
 import com.dev.Financas.service.UsuarioService;
 
@@ -167,9 +165,17 @@ public class LancamentoResource {
 		return lancamento;
 	}
 
-	@GetMapping("/tudo/{idUsuario}")
-	public ResponseEntity<List<Lancamento>> buscarLancamentosPorUsuario(@PathVariable Long idUsuario) {
-		List<Lancamento> lancamentos = service.buscarLancamentosPorUsuario(idUsuario);
+	// @GetMapping("/tudo/{idUsuario}")
+	// public ResponseEntity<List<Lancamento>>
+	// buscarLancamentosPorUsuario(@PathVariable Long idUsuario) {
+	// List<Lancamento> lancamentos =
+	// service.buscarLancamentosPorUsuario(idUsuario);
+	// return ResponseEntity.ok(lancamentos);
+	// }
+
+	@GetMapping("/tudo/{emailUsuario}")
+	public ResponseEntity<List<Lancamento>> buscarLancamentosPorUsuarioEmail(@PathVariable String emailUsuario) {
+		List<Lancamento> lancamentos = service.buscarLancamentosPorUsuariEmail(emailUsuario);
 		return ResponseEntity.ok(lancamentos);
 	}
 

@@ -69,7 +69,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public Optional<Usuario> ObterPorEmail(String email) {
-
 		return repository.findByEmail(email);
 	}
 
