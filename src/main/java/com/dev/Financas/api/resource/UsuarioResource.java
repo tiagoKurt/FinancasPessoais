@@ -76,7 +76,9 @@ public class UsuarioResource {
 		}
 
 		BigDecimal saldo = lancamentoService.obterSaldoPorUsuarioEmail(email);
-		return ResponseEntity.ok(saldo);
+		Map<String, BigDecimal> jsonEnvio = new HashMap<>();
+		jsonEnvio.put("valor",saldo);
+		return ResponseEntity.ok(jsonEnvio);
 	}
 
 	@GetMapping("{email}/receita")
@@ -88,7 +90,9 @@ public class UsuarioResource {
 		}
 
 		BigDecimal receita = lancamentoService.obterReceitaPorUsuarioEmail(email);
-		return ResponseEntity.ok(receita);
+		Map<String, BigDecimal> jsonEnvio = new HashMap<>();
+		jsonEnvio.put("valor",receita);
+		return ResponseEntity.ok(jsonEnvio);
 	}
 
 	@GetMapping("{email}/despesa")
@@ -100,7 +104,10 @@ public class UsuarioResource {
 		}
 
 		BigDecimal despesa = lancamentoService.obterDespesaPorUsuarioEmail(email);
-		return ResponseEntity.ok(despesa);
+		Map<String, BigDecimal> jsonEnvio = new HashMap<>();
+		jsonEnvio.put("valor",despesa);
+
+		return ResponseEntity.ok(jsonEnvio);
 	}
 
 }
