@@ -14,4 +14,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 	Optional<IUsuarioProjection> findProjectedById(Long id);
 
+	
 }

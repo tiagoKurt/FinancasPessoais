@@ -173,10 +173,14 @@ public class LancamentoResource {
 	// return ResponseEntity.ok(lancamentos);
 	// }
 
-	@GetMapping("/tudo/{emailUsuario}")
-	public ResponseEntity<List<Lancamento>> buscarLancamentosPorUsuarioEmail(@PathVariable String emailUsuario) {
-		List<Lancamento> lancamentos = service.buscarLancamentosPorUsuariEmail(emailUsuario);
-		return ResponseEntity.ok(lancamentos);
+	@GetMapping("/dados/{emailUsuario}")
+	public ResponseEntity buscarLancamentosPorUsuarioEmail(@PathVariable String emailUsuario) {
+		Optional usuario = usuarioService.ObterPorEmail(emailUsuario);
+		List<Lancamento> lancamentos = service.buscarLancamentosPorUsuarioEmail(emailUsuario);
+		Map<String,Object> jsonEnvio = new HashMap<>();
+		jsonEnvio.put("usuario",usuario);
+		jsonEnvio.put("lancamentos", lancamentos);
+		return ResponseEntity.ok(jsonEnvio);
 	}
 
 }

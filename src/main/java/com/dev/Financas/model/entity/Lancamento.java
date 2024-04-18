@@ -48,10 +48,10 @@ public class Lancamento {
 
 	@Column(name = "ano")
 	private Integer ano;
-
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
-
 	private Usuario usuario;
 
 	@Column(name = "valor")

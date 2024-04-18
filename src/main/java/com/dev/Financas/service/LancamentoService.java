@@ -38,5 +38,5 @@ public interface LancamentoService {
 
 	List<Lancamento> buscarLancamentosPorUsuario(Long idUsuario);
 
-	List<Lancamento> buscarLancamentosPorUsuariEmail(String emailUsuario);
+	List<Lancamento> buscarLancamentosPorUsuarioEmail(String emailUsuario);
 }

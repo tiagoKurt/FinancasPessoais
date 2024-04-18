@@ -23,6 +23,5 @@ public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
         BigDecimal obterSaldoPorTipoLancamentoEEmail(@Param("emailUsuario") String emailUsuario,
                         @Param("tipoLanc") TipoLancamento tipoLanc);
 
-        List<Lancamento> findByUsuarioEmail(String emailUsuario);
-
+        List<Lancamento> findLancamentosByUsuarioEmail(String emailUsuario);                
 }

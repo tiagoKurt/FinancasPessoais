@@ -194,8 +194,9 @@ public class LancamentoServiceImpl implements LancamentoService {
 	}
 
 	@Override
-	public List<Lancamento> buscarLancamentosPorUsuariEmail(String emailUsuario) {
-		return repository.findByUsuarioEmail(emailUsuario);
+	public List<Lancamento> buscarLancamentosPorUsuarioEmail(String emailUsuario) {
+		
+		return repository.findLancamentosByUsuarioEmail(emailUsuario);
 	}
 
 }
