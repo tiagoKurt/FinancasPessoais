@@ -1,5 +1,6 @@
 package com.dev.Financas.api.resource;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -174,13 +175,23 @@ public class LancamentoResource {
 	// }
 
 	@GetMapping("/dados/{emailUsuario}")
-	public ResponseEntity buscarLancamentosPorUsuarioEmail(@PathVariable String emailUsuario) {
-		Optional usuario = usuarioService.ObterPorEmail(emailUsuario);
-		List<Lancamento> lancamentos = service.buscarLancamentosPorUsuarioEmail(emailUsuario);
-		Map<String,Object> jsonEnvio = new HashMap<>();
-		jsonEnvio.put("usuario",usuario);
-		jsonEnvio.put("lancamentos", lancamentos);
-		return ResponseEntity.ok(jsonEnvio);
-	}
+public ResponseEntity buscarLancamentosPorUsuarioEmail(@PathVariable String emailUsuario) {
+    Optional<Usuario> usuarioOptional = usuarioService.ObterPorEmail(emailUsuario);
+    if (!usuarioOptional.isPresent()) {
+        return ResponseEntity.notFound().build();
+    }
+
+    Usuario usuario = usuarioOptional.get();
+    List<Lancamento> lancamentos = service.buscarLancamentosPorUsuarioEmail(emailUsuario);
+
+    lancamentos.sort(Comparator.comparingInt(Lancamento::getAno)
+                                .thenComparingInt(Lancamento::getMes));
+
+    Map<String, Object> jsonEnvio = new HashMap<>();
+    jsonEnvio.put("usuario", usuario);
+    jsonEnvio.put("lancamentos", lancamentos);
+    return ResponseEntity.ok(jsonEnvio);
+}
+
 
 }
